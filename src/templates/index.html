@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block head %}
+<script>
+    const searchForOperation = () => {
+        const searchInputValue = document.getElementById("operation_search").value;
+        window.location.href = `/pages/search/${searchInputValue}`;
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="filter">
+    <div class="container filter__container">
+        <div class="filter__control">
+            <ul>
+                <li><input type="text" id="operation_search" placeholder="Operation type"></li>
+                <li><button onclick="searchForOperation()" id="button">Search</button></li>
+            </ul>
+            <p>Enter type of operation to search</p>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container content__container">
+        {% if operations %}
+            {% for operation in operations %}
+            <div class="card">
+                <ul>
+                    <li>{{ operation.operation_number }}</li>
+                    <li>{{ operation.date }}</li>
+                    <li>{{ operation.quantity }}</li>
+                    <li>{{ operation.figi }}</li>
+                    <li>{{ operation.type }}</li>
+                </ul>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h2>No operations</h2>
+        {% endif %}
+    </div>
+</section>
+{% endblock content %}
