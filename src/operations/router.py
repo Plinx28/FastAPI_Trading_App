@@ -38,7 +38,7 @@ async def get_specific_operations(
             "data": result.mappings().all(),
             "details": "You've got all specific operations from your quory."
         }
-    except Exception as ex:
+    except Exception:
         raise HTTPException(status_code=500, detail={
             "status": "error",
             "data": None,

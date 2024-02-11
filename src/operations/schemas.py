@@ -1,6 +1,7 @@
 from datetime import datetime
 from pydantic import BaseModel
 
+
 class OperationCreate(BaseModel):
     operation_number: str
     quantity: str

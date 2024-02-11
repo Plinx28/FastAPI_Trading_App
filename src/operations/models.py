@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, TIMESTAMP
 
-from src.database import Base
+from src import Base
 
 
 class Operation(Base):

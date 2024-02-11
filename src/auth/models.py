@@ -1,10 +1,10 @@
-from sqlalchemy import Column, ForeignKey, UUID, Integer, String, JSON, Boolean, TIMESTAMP
+from sqlalchemy import Column, ForeignKey, UUID, Integer, String, Boolean, TIMESTAMP
 
 from fastapi_users.db import SQLAlchemyBaseUserTableUUID
 
-from src.database import Base
-
 from datetime import datetime
+
+from src import Base
 
 
 class Role(Base):
@@ -12,7 +12,7 @@ class Role(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
-    permissions = Column(JSON, nullable=True)
+    permissions = Column(String, nullable=True)
 
 
 class User(SQLAlchemyBaseUserTableUUID, Base):

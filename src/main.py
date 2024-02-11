@@ -9,7 +9,7 @@ from src.auth.base_config import fastapi_users
 from src.operations.router import router as router_operation
 from src.tasks.router import router as router_tasks
 from src.chat.router import router as router_chat
-
+from src.auth.router import router as router_auth
 from src.pages.router import router as router_pages
 
 from fastapi_cache import FastAPICache
@@ -42,19 +42,20 @@ app.add_middleware(
 app.include_router(
     fastapi_users.get_auth_router(auth_backend),
     prefix="/auth/jwt",
-    tags=["auth"],
+    tags=["Auth"],
 )
 
 app.include_router(
     fastapi_users.get_register_router(UserRead, UserCreate),
     prefix="/auth",
-    tags=["auth"],
+    tags=["Auth"],
 )
 
 app.include_router(router_operation)
 app.include_router(router_tasks)
 app.include_router(router_pages)
 app.include_router(router_chat)
+app.include_router(router_auth)
 
 
 @app.on_event("startup")

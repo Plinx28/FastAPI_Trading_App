@@ -1,6 +1,6 @@
 import uuid
 
-from pydantic import EmailStr
+from pydantic import EmailStr, BaseModel, Json
 from fastapi_users import schemas
 
 from typing import Optional
@@ -28,8 +28,7 @@ class UserCreate(schemas.BaseUserCreate):
     role_id: int
 
 
-# class UserUpdate(schemas.BaseUserUpdate):
-#     username: str
-#     email: EmailStr
-#     password: str
-#     role_id: int
+class RoleCreate(BaseModel):
+    id: int
+    name: str
+    permissions: str

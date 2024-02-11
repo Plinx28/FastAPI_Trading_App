@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from src.database import Base
+from src import Base
 
 
 class Message(Base):

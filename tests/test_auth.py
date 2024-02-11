@@ -1,29 +1,41 @@
+from httpx import AsyncClient
+from conftest import async_session_maker
+
 from sqlalchemy import insert, select
 
 from src.auth.models import Role
-from conftest import client, async_session_maker
 
 
 async def test_add_role():
     async with async_session_maker() as session:
-        stmt = insert(Role).values(id=1, name="admin", permissions=None)
+        """Here we create a DB and tables. Add the first default role."""
+        new_role = {
+            "id": 1,
+            "name": "simple",
+            "permissions": "nothing"
+        }
+        stmt = insert(Role).values(**new_role)
         await session.execute(stmt)
         await session.commit()
 
-        query = select(Role)
+        query = select(Role.id)
         result = await session.execute(query)
-        assert result.all() == [(1, 'admin', None)], "This role was not added to DB"
+        result = result.all()
+
+        assert result == [(new_role["id"], )], (f"The role wasn't added to the database. "
+                                                f"result.all() is  {result}")
 
 
-def test_register():
-    response = client.post("auth/register", json={
-        "email": "username@mamail.com",
-        "password": "His_PaSsWoRd",
+async def test_register_default_user(ac: AsyncClient):
+    """role_id of this User always will be 1. Check logic in src.auth.manager.py. But role_id=1 must exist."""
+    response = await ac.post("/auth/register", json={
+        "email": "fake_admin@mail.com",
+        "password": "password",
         "is_active": True,
         "is_superuser": False,
         "is_verified": False,
-        "username": "Username",
-        "role_id": 1
+        "username": "fake_admin",
+        "role_id": 111222333
     })
 
     assert response.status_code == 201, f"Status code is not 201. It is {response.status_code}"
