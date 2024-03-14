@@ -1,3 +1,5 @@
+import pytest
+
 from httpx import AsyncClient
 from conftest import async_session_maker
 
@@ -6,13 +8,19 @@ from sqlalchemy import insert, select
 from src.auth.models import Role
 
 
-async def test_add_role():
+@pytest.mark.parametrize(
+    "role_id, name, permissions",
+    [
+        (1, "admin", None)
+    ]
+)
+async def test_add_role(role_id, name, permissions):
     async with async_session_maker() as session:
         """Here we create a DB and tables. Add the first default role."""
         new_role = {
-            "id": 1,
-            "name": "simple",
-            "permissions": "nothing"
+            "id": role_id,
+            "name": name,
+            "permissions": permissions
         }
         stmt = insert(Role).values(**new_role)
         await session.execute(stmt)
