@@ -7,4 +7,5 @@
   <li>Celery</li>
   <li>Web-socket</li>
   <li>SqlAlchemy</li>
+  <li>DockerCompose</li>
 </ul>
